@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=3.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Informatik Großer Leistungsnachweis: Datenbanken - Zusammenfassung</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #4da6ff;
+            --dark-blue: #66b3ff;
+            --light-blue: #1a2332;
+            --accent-orange: #ff8c5a;
+            --success-green: #4caf50;
+            --warning-amber: #ffc107;
+            --text-primary: #e8eaed;
+            --text-secondary: #9aa0a6;
+            --bg-light: #202124;
+            --bg-dark: #131416;
+            --border-light: #3c4043;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-dark);
+        }
+
+        /* A4 Page Setup */
+        @media print {
+            body {
+                margin: 0;
+                font-size: 12px;
+                line-height: 1.4;
+                background: white !important;
+                color: black !important;
+            }
+            
+            .container {
+                max-width: none;
+                padding: 15mm;
+                background: white !important;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+            
+            .no-print {
+                display: none;
+            }
+            
+            h1 {
+                font-size: 24px;
+                color: black !important;
+            }
+            
+            h2 {
+                font-size: 18px;
+                color: black !important;
+            }
+            
+            h3 {
+                font-size: 16px;
+                color: black !important;
+            }
+            
+            .section {
+                margin-bottom: 20px;
+            }
+            
+            .example-box, .tip-box, .definition-box {
+                border: 1px solid #ccc !important;
+                page-break-inside: avoid;
+                background: #f9f9f9 !important;
+                color: black !important;
+            }
+            
+            table, th, td {
+                border: 1px solid #ccc !important;
+                background: white !important;
+                color: black !important;
+            }
+            
+            .header {
+                background: #f0f0f0 !important;
+                color: black !important;
+                border: 1px solid #ccc !important;
+            }
+            
+            strong {
+                color: black !important;
+            }
+            
+            code {
+                background: #f0f0f0 !important;
+                color: black !important;
+            }
+        }
+
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-dark);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+            color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .success-message {
+            background: var(--success-green);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin: 20px 0 12px 0;
+        }
+
+        .definition-box {
+            background: var(--light-blue);
+            border-left: 5px solid var(--primary-blue);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            border: 1px solid var(--border-light);
+        }
+
+        .definition-box strong {
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: #2d2416;
+            border-left: 5px solid var(--warning-amber);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            border: 1px solid var(--border-light);
+        }
+
+        .tip-box {
+            background: #1a2e1a;
+            border-left: 5px solid var(--success-green);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            border: 1px solid var(--border-light);
+        }
+
+        .advantages-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .advantage-item {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .advantage-icon {
+            background: var(--primary-blue);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .table-container::after {
+            content: "← Swipe to scroll →";
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @media screen and (min-width: 769px) {
+            .table-container::after {
+                display: none;
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-light);
+        }
+
+        th {
+            background: #1e3a8a;
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background: #2a2d30;
+        }
+
+        .code-sample {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        code {
+            background: #2a2d30;
+            color: var(--warning-amber);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        .exam-questions {
+            background: var(--bg-light);
+            border: 2px dashed var(--primary-blue);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .question h4 {
+            color: var(--primary-blue);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .answer {
+            background: var(--bg-dark);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--success-green);
+            margin-top: 8px;
+            border: 1px solid var(--border-light);
+        }
+
+        .final-tips {
+            background: linear-gradient(135deg, var(--accent-orange), #ff8c5a);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+
+        .final-tips h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .final-tips ol {
+            margin-left: 20px;
+        }
+
+        .final-tips li {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .encouragement {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            color: white;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        strong {
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 15px;
+                max-width: 100%;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+                line-height: 1.2;
+            }
+            
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            
+            .header {
+                padding: 20px 15px;
+                margin-bottom: 25px;
+            }
+            
+            .advantages-list {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .advantage-item {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            .advantage-icon {
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+            }
+            
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+            }
+            
+            .table-container {
+                overflow-x: scroll;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            h3 {
+                font-size: 1.1rem;
+            }
+            
+            .definition-box, .example-box, .tip-box {
+                padding: 15px;
+                margin: 10px 0;
+            }
+            
+            .exam-questions {
+                padding: 15px;
+            }
+            
+            .question h4 {
+                font-size: 0.95rem;
+            }
+            
+            .answer {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            .final-tips {
+                padding: 20px 15px;
+            }
+            
+            .final-tips ol {
+                margin-left: 15px;
+            }
+            
+            .final-tips li {
+                font-size: 0.9rem;
+                margin-bottom: 6px;
+            }
+            
+            .encouragement {
+                font-size: 1rem;
+            }
+            
+            .success-message {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .section {
+                margin-bottom: 25px;
+            }
+            
+            .emoji {
+                font-size: 1em;
+            }
+            
+            code {
+                font-size: 0.8em;
+                padding: 1px 4px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .header .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .header {
+                padding: 15px 10px;
+                margin-bottom: 20px;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+            
+            h3 {
+                font-size: 1rem;
+                margin: 15px 0 10px 0;
+            }
+            
+            .definition-box, .example-box, .tip-box {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            table {
+                font-size: 0.75rem;
+            }
+            
+            th, td {
+                padding: 6px 4px;
+            }
+            
+            .advantage-item {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .exam-questions {
+                padding: 12px;
+            }
+            
+            .question h4 {
+                font-size: 0.9rem;
+            }
+            
+            .answer {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .final-tips {
+                padding: 15px 10px;
+            }
+            
+            .final-tips li {
+                font-size: 0.85rem;
+            }
+            
+            .encouragement {
+                font-size: 0.95rem;
+            }
+            
+            .success-message {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Touch-friendly interactions */
+        @media (hover: none) and (pointer: coarse) {
+            .advantage-item {
+                transition: background-color 0.2s ease;
+            }
+            
+            .advantage-item:active {
+                background: #2a2d30;
+            }
+            
+            tr:active {
+                background: #2a2d30;
+            }
+        }
+
+        /* Landscape phone optimization */
+        @media screen and (max-width: 768px) and (orientation: landscape) {
+            .header {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .section {
+                margin-bottom: 20px;
+            }
+            
+            .advantages-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Informatik Großer Leistungsnachweis</h1>
+            <div class="subtitle">Datenbanken - Komplette Zusammenfassung</div>
+        </div>
+
+        <div class="success-message no-print">
+            <span class="emoji">🍀</span>Viel Erfolg bei deinem Großen Leistungsnachweis morgen, Daniel!
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">🎯</span>1. Was sind Daten?</h2>
+            
+            <div class="definition-box">
+                <strong>Daten sind Fakten</strong> (Zahlen, Wörter, Zeichen) - sie sind die Grundbausteine.
+            </div>
+
+            <div class="example-box">
+                <h3>Beispiel</h3>
+                <p><strong>Reine Daten:</strong> <code>Tobias</code>, <code>16</code>, <code>10V1</code></p>
+                <p>Das sind nur einzelne Fakten ohne Bedeutung</p>
+            </div>
+
+            <h3>Wo werden Daten gespeichert?</h3>
+            <div class="advantages-list">
+                <div class="advantage-item">
+                    <div class="advantage-icon">🌐</div>
+                    <div>Im <strong>Internet</strong></div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">💻</div>
+                    <div>Auf einem <strong>PC</strong></div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">🖥️</div>
+                    <div>Auf einem <strong>Server</strong></div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">💾</div>
+                    <div>Auf einem <strong>USB-Stick</strong></div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">🗄️</div>
+                    <div>In einer <strong>Datenbank</strong></div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">🔄</div>
+                    <div><strong>Offline</strong> oder <strong>online</strong></div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h3><span class="emoji">🔄</span>Von Daten zu Informationen</h3>
+                <p><strong>Informationen entstehen erst, wenn Daten in einem Zusammenhang interpretiert werden.</strong></p>
+                <div style="margin-top: 15px;">
+                    <p><strong>Beispiel:</strong></p>
+                    <p>• Daten: <code>Tobias</code>, <code>16</code>, <code>10V1</code></p>
+                    <p>• Information: "Tobias ist 16 Jahre alt und in der Klasse 10V1."</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <div class="section">
+            <h2><span class="emoji">🗄️</span>2. Was sind Datenbanken?</h2>
+            
+            <div class="definition-box">
+                Eine <strong>Datenbank</strong> ist eine <strong>geordnete, elektronische Sammlung von Daten</strong>.
+            </div>
+
+            <h3>Was kann man in einer Datenbank tun?</h3>
+            <div class="advantages-list">
+                <div class="advantage-item">
+                    <div class="advantage-icon">✅</div>
+                    <div>Daten <strong>gespeichert</strong> werden</div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">🔍</div>
+                    <div>Daten <strong>abgerufen</strong> werden</div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">🔎</div>
+                    <div>Daten <strong>gesucht</strong> werden</div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">✏️</div>
+                    <div>Daten <strong>geändert</strong> werden</div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">🗑️</div>
+                    <div>Daten <strong>gelöscht</strong> werden</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h3>Wichtiger Begriff: Datenbasis</h3>
+                <p>Die <strong>Gesamtheit aller gespeicherten Daten</strong> nennt man <strong>Datenbasis</strong>.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">🎯</span>3. Warum nutzt man Datenbanken?</h2>
+            
+            <h3>Vorteile von Datenbanken:</h3>
+            <div class="advantages-list">
+                <div class="advantage-item">
+                    <div class="advantage-icon">1</div>
+                    <div><strong>Große Datenmengen übersichtlich speichern</strong></div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">2</div>
+                    <div><strong>Daten schnell wiederfinden</strong></div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">3</div>
+                    <div><strong>Doppelungen vermeiden</strong></div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">4</div>
+                    <div><strong>Änderungen einfach vornehmen</strong></div>
+                </div>
+            </div>
+
+            <h3><span class="emoji">📋</span>Beispiele für Datenbanken im Alltag:</h3>
+            <div class="advantages-list">
+                <div class="advantage-item">
+                    <div class="advantage-icon">📚</div>
+                    <div><strong>Bücherei</strong> (Bücher, Ausleihen, Mitglieder)</div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">🏃‍♂️</div>
+                    <div><strong>Mitgliederliste von Vereinen</strong></div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">🏢</div>
+                    <div><strong>Kundendaten einer Firma</strong></div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">👥</div>
+                    <div><strong>Mitarbeiterdaten einer Firma</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">🔗</span>4. Was sind relationale Datenbanken?</h2>
+            
+            <div class="definition-box">
+                In <strong>relationalen Datenbanken</strong> werden Daten in <strong>Tabellen</strong> gespeichert.
+            </div>
+
+            <h3>Wichtige Eigenschaften:</h3>
+            <ul>
+                <li>Es gibt meist <strong>mehrere Tabellen</strong></li>
+                <li>Die Tabellen sind <strong>miteinander verbunden</strong></li>
+                <li>Jede Tabelle hat eine <strong>klare Aufgabe</strong></li>
+            </ul>
+
+            <div class="example-box">
+                <h3>Beispiel für Tabellen:</h3>
+                <ul>
+                    <li><strong>Schüler-Tabelle</strong> (Namen, Klassen, etc.)</li>
+                    <li><strong>Bücher-Tabelle</strong> (Titel, Autor, Genre)</li>
+                    <li><strong>Ausleihe-Tabelle</strong> (Wer hat welches Buch wann ausgeliehen?)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <div class="section">
+            <h2><span class="emoji">📊</span>5. Wie sind Datenbanken aufgebaut?</h2>
+            
+            <h3>Eine Tabelle besteht aus drei Hauptelementen:</h3>
+
+            <div class="advantages-list">
+                <div class="advantage-item">
+                    <div class="advantage-icon">🏷️</div>
+                    <div>
+                        <strong>1. Attribute (Spalten)</strong><br>
+                        <small>Die Spalten geben an, welche Eigenschaften gespeichert werden</small>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">📝</div>
+                    <div>
+                        <strong>2. Datensätze (Zeilen)</strong><br>
+                        <small>Jede Zeile ist ein Datensatz</small>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">🔢</div>
+                    <div>
+                        <strong>3. Datenfelder (einzelne Zellen)</strong><br>
+                        <small>In diese Datenfelder werden die Attributwerte eingetragen</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <h3>Beispiele:</h3>
+                <p><strong>Attribute:</strong> <code>vorname</code>, <code>nachname</code>, <code>klasse</code>, <code>titel</code>, <code>genre</code></p>
+                <p><strong>Datensätze:</strong> eine Schülerin, ein Buch, eine Ausleihe</p>
+                <p><strong>Datenfelder:</strong> "Tobias" im Feld "vorname"</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">📋</span>6. Praktisches Beispiel: Bücherei-Datenbank</h2>
+            
+            <h3>Tabelle "Bücherliste":</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Titel</th>
+                            <th>Genre</th>
+                            <th>Autor</th>
+                            <th>Jahr</th>
+                            <th>Seitenzahl</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Alice im Wunderland</td>
+                            <td>Fantasy</td>
+                            <td>Lewis Carroll</td>
+                            <td>1865</td>
+                            <td>137</td>
+                        </tr>
+                        <tr>
+                            <td>Moby Dick</td>
+                            <td>Abenteuer</td>
+                            <td>Herman Melville</td>
+                            <td>1851</td>
+                            <td>768</td>
+                        </tr>
+                        <tr>
+                            <td>Der Hobbit</td>
+                            <td>Fantasy</td>
+                            <td>J.R.R. Tolkien</td>
+                            <td>1937</td>
+                            <td>400</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Tabelle "Schüler":</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vorname</th>
+                            <th>Nachname</th>
+                            <th>Klasse</th>
+                            <th>Alter</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tobias</td>
+                            <td>Schmidt</td>
+                            <td>10V1</td>
+                            <td>16</td>
+                        </tr>
+                        <tr>
+                            <td>Anna</td>
+                            <td>Müller</td>
+                            <td>10V2</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <td>Max</td>
+                            <td>Weber</td>
+                            <td>10V1</td>
+                            <td>16</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <div class="section">
+            <h2><span class="emoji">🧠</span>7. Wichtige Fachbegriffe (Prüfungswissen!)</h2>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Begriff</th>
+                            <th>Definition</th>
+                            <th>Beispiel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Daten</strong></td>
+                            <td>Fakten (Zahlen, Wörter, Zeichen)</td>
+                            <td>"Tobias", "16", "10V1"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Information</strong></td>
+                            <td>Daten in einem Zusammenhang interpretiert</td>
+                            <td>"Tobias ist 16 Jahre alt"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Datenbank</strong></td>
+                            <td>Geordnete, elektronische Sammlung von Daten</td>
+                            <td>Bücherei-System</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Datenbasis</strong></td>
+                            <td>Gesamtheit aller gespeicherten Daten</td>
+                            <td>Alle Daten in der Bücherei-DB</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Relationale DB</strong></td>
+                            <td>Datenbank mit mehreren verbundenen Tabellen</td>
+                            <td>Bücher + Schüler + Ausleihen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Attribut</strong></td>
+                            <td>Spalte in einer Tabelle (Eigenschaft)</td>
+                            <td>"vorname", "titel", "genre"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Datensatz</strong></td>
+                            <td>Zeile in einer Tabelle</td>
+                            <td>Ein Schüler, ein Buch</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Datenfeld</strong></td>
+                            <td>Einzelne Zelle in der Tabelle</td>
+                            <td>"Tobias" im Feld "vorname"</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">🎓</span>8. Typische Prüfungsfragen & Antworten</h2>
+            
+            <div class="exam-questions">
+                <div class="question">
+                    <h4>❓ "Was ist der Unterschied zwischen Daten und Informationen?"</h4>
+                    <div class="answer">
+                        <strong>Antwort:</strong> Daten sind reine Fakten ohne Kontext (z.B. "16", "Tobias"). Informationen entstehen erst, wenn diese Daten in einem Zusammenhang interpretiert werden (z.B. "Tobias ist 16 Jahre alt").
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>❓ "Welche Operationen kann man in einer Datenbank durchführen?"</h4>
+                    <div class="answer">
+                        <strong>Antwort:</strong> Speichern, Abrufen, Suchen, Ändern, Löschen von Daten.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>❓ "Was sind die Hauptbestandteile einer Datenbanktabelle?"</h4>
+                    <div class="answer">
+                        <strong>Antwort:</strong><br>
+                        1. <strong>Attribute</strong> (Spalten - zeigen welche Eigenschaften gespeichert werden)<br>
+                        2. <strong>Datensätze</strong> (Zeilen - jede Zeile ist ein kompletter Datensatz)<br>
+                        3. <strong>Datenfelder</strong> (einzelne Zellen - enthalten die Attributwerte)
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>❓ "Warum sind Datenbanken nützlich?"</h4>
+                    <div class="answer">
+                        <strong>Antwort:</strong> Sie helfen dabei große Datenmengen übersichtlich zu speichern, Daten schnell zu finden, Doppelungen zu vermeiden und Änderungen einfach vorzunehmen.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>❓ "Was macht eine Datenbank 'relational'?"</h4>
+                    <div class="answer">
+                        <strong>Antwort:</strong> In relationalen Datenbanken werden Daten in mehreren Tabellen gespeichert, die miteinander verbunden sind. Jede Tabelle hat eine klare Aufgabe.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="final-tips">
+            <h3><span class="emoji">🚀</span>Letzte Tipps für den Großen Leistungsnachweis</h3>
+            <ol>
+                <li><strong>Merke dir die Grunddefinitionen</strong> - sie kommen fast immer dran</li>
+                <li><strong>Verstehe den Unterschied</strong> zwischen Daten und Informationen</li>
+                <li><strong>Kenne die drei Bestandteile</strong> einer Tabelle (Attribute, Datensätze, Datenfelder)</li>
+                <li><strong>Überlege dir eigene Beispiele</strong> für Datenbanken aus dem Alltag</li>
+                <li><strong>Bei praktischen Aufgaben:</strong> Denke an das Bücherei-Beispiel als Vorlage</li>
+            </ol>
+            
+            <div class="encouragement">
+                <span class="emoji">💪</span>Du schaffst das! Die Konzepte sind eigentlich logisch und du kennst sie aus dem Alltag.
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; color: var(--text-secondary); font-style: italic;">
+            Erstellt für Daniel von Fozmu Studios - Viel Erfolg beim Großen Leistungsnachweis! <span class="emoji">🎯</span>
+        </div>
+    </div>
+</body>
+</html>
